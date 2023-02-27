@@ -12,33 +12,19 @@ start_date = end_date - datetime.timedelta(days=365 * 1)
 # Set number of days back to retrieve data
 when = -1
 
-# Dictionary of indicators with their names
-indicators = {'GDP': 'Gross Domestic Product', 
-            'CPALTT01USM657N': 'Consumer Price Index', 
-            'UMCSENT': 'University of Michigan Consumer Sentiment Index', 
-            'PI': 'Personal Income', 
-            'PCE': 'Personal Consumption Expenditures', 
-            'ICSA': 'Initial Claims', 
-            'RSXFS': 'Advance Retail Sales', 
-            'DFF': 'Federal Funds Effective Rate', 
-            'EXHOSLUSM495S': 'Existing Home Sales', 
-            'PPIACO': 'Producer Price Index by Commodity: All Commodities', 
-            'UNRATE': 'Unemployment Rate', 
-            'GDPC1': 'Real Gross Domestic Product', 
-            'CBBTCUSD': 'Coinbase Bitcoin', 
-            'MICH': 'Inflation Expectation', 
-            'STICKCPIM157SFRBATL': 'Sticky Price Consumer Price Index', 
-            'M2SL': 'M2 Money Stock', 
-            'M2V': 'Velocity of M2'}
+# Connect to the SQL database and retrieve the indicators
+conn = config.connection
+cur = conn.cursor()
+cur.execute('SELECT symbol, description FROM indicators')
+indicators = cur.fetchall()
 
 # Get the data for all indicators in the list
 data = {}
-for indicator in indicators.keys():
-    data[indicator] = web.DataReader(indicator, 'fred', start_date, end_date, api_key='<your_API_key>')
+for indicator in indicators:
+    data[indicator[0]] = web.DataReader(indicator[0], 'fred', start_date, end_date, api_key='<your_API_key>')
 
-# Print the value for each indicator
-for indicator in indicators.keys():
-    print(indicators[indicator] + ':', data[indicator].iloc[when][indicator])
-
+# Print the last value for each indicator
+for indicator in indicators:
+    print(indicator[1] + ':', data[indicator[0]].iloc[-1][indicator[0]])
 
 
