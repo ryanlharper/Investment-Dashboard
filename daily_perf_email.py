@@ -1,4 +1,4 @@
-import psycopg2
+import config
 import win32com.client as win32
 
 # Set email parameters
@@ -7,26 +7,18 @@ subject = "Daily Performance"
 message = ""
 
 # Connect to database and execute queries
-conn = psycopg2.connect(
-    dbname="vcm_holdings",
-    user="postgres",
-    password="",
-    host="localhost",
-    port="5432"
-)
+conn = config.connection
 
 cur = conn.cursor()
 query1 = """
 SELECT symbol, ROUND(change_pct,2) 
 FROM watchlist 
-WHERE symbol <> 'MDB'
 ORDER BY change_pct DESC LIMIT 5;
 """
 
 query2 = """
 SELECT symbol, ROUND(change_pct,2) 
 FROM watchlist 
-WHERE symbol <> 'MDB'
 ORDER BY change_pct ASC LIMIT 5;
 """
 
