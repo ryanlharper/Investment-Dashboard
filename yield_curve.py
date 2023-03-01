@@ -4,9 +4,12 @@ import config
 # Set the API key
 web.DataReader('GDP', 'fred', api_key=config.API_KEY)
 
-# Set the dates
-dates = ['2007-08-09', '2018-01-16' , '2023-02-27']
+# Set the parameters
+dates = []
 indicators = ['DGS3MO', 'DGS6MO', 'DGS2', 'DGS5', 'DGS10', 'DGS30']
+number_of_dates = int(input("How many dates will be used? "))
+for number in range(0,number_of_dates,1):
+    dates.append(input("Enter one date? "))    
 
 # Get the data for all indicators in the list
 data = {}
