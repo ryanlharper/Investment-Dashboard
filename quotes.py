@@ -7,7 +7,7 @@ number_of_stocks = int(input("How many stocks? "))
 for stock in range(0,number_of_stocks,1):
     symbols.append(input("Enter a symbol: ").upper())   
 
-    # set delay time
+# set delay time
 delay_time = int(input("How many seconds between updates? "))
 
 #get real-time data

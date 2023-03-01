@@ -9,11 +9,11 @@ conn = config.connection
 cur = conn.cursor()
 
 # User data
-first_name = input('What is your first name? ') #Can be NULL
-last_name = input('What is your last name? ') # Can be NULL
-username = input('What is your username? ') # Cannot be NULL
-email = input('What is your email? ') # Cannot be NULL
-password = input('What is your password? ') # Cannot be NULL
+first_name = input('Enter your first name: ') #Can be NULL
+last_name = input('Enter your last name: ') # Can be NULL
+username = input('Enter your username: ') # Cannot be NULL
+email = input('Enter your email: ') # Cannot be NULL
+password = input('Enter your password: ') # Cannot be NULL
 
 # Hash and salt the password
 hashed_password, salt = scramble(password)
