@@ -8,7 +8,7 @@ def update_watchlist():
     cur.execute("""
         SELECT ws.symbol
         FROM watchlist_symbols ws
-        WHERE etf = 'No'
+        WHERE etf = 'No' 
         ORDER BY ws.symbol
     """)
     symbols = [r[0] for r in cur.fetchall()]
@@ -16,7 +16,7 @@ def update_watchlist():
     while True:
         try:
             for symbol in symbols:
-                data = yf.Ticker(symbol).history(period='2d')
+                data = yf.Ticker(symbol).history(period='4d')
                 latest_price = data['Close'][-1]
                 previous_close = data['Close'][-2]
                 change_pct = (latest_price - previous_close) / previous_close * 100
