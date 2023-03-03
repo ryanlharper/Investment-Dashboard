@@ -1,9 +1,6 @@
 import pandas_datareader.data as web
 import config
 
-# Set the API key
-web.DataReader('GDP', 'fred', api_key=config.API_KEY)
-
 # Set the parameters
 dates = []
 indicators = ['DGS3MO', 'DGS6MO', 'DGS2', 'DGS5', 'DGS10', 'DGS30']

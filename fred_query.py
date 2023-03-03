@@ -2,9 +2,6 @@ import pandas_datareader.data as web
 import datetime
 import config
 
-# Set the API key
-web.DataReader('GDP', 'fred', api_key=config.API_KEY)
-
 # Set the start and end dates for the historical data
 end_date = datetime.datetime.today()
 start_date = end_date - datetime.timedelta(days=365 * 1)
