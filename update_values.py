@@ -26,8 +26,3 @@ def new_values():
             WHERE symbol = %s
         """, (latest_price, market_value, symbol))
         conn.commit()
-    
-    cur.close()
-    conn.close()
-
-    
