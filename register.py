@@ -1,9 +1,4 @@
-import hashlib, secrets, config
-
-def scramble(password: str):
-    """Hash and salt the given password"""
-    salt = secrets.token_hex(16)
-    return hashlib.sha512((password + salt).encode('utf-8')).hexdigest(), salt
+import config, login
 
 conn = config.connection
 cur = conn.cursor()
@@ -59,7 +54,7 @@ while True:
         break
 
 # Hash and salt the password
-hashed_password, salt = scramble(password)
+hashed_password, salt = login.scramble(password)
 
 # Insert the user into the database with the hashed and salted password
 cur.execute("INSERT INTO users (first_name, last_name, username, email, password, salt) VALUES (%s, %s, %s, %s, %s, %s)", (first_name, last_name, username, email, hashed_password, salt))
