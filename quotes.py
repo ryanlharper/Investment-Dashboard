@@ -3,12 +3,33 @@ import time
 
 # set  ticker symbols
 symbols = []
-number_of_stocks = int(input("How many stocks? "))
+while True:
+    try:
+        number_of_stocks = int(input("How many stocks? "))
+        break
+    except ValueError:
+        print("Please enter a valid integer.")    
+
 for stock in range(0,number_of_stocks,1):
-    symbols.append(input("Enter a symbol: ").upper())   
+    while True: 
+        symbol = input("Enter a symbol: ").upper()
+        if symbol == "":
+             print("Symbol cannot be empty.")
+             continue
+        elif isinstance(symbol, str) and symbol.isalpha():
+            symbols.append(symbol)  
+            break
+        else: 
+             print(symbol, "is an invalid symbol.")
+             continue 
 
 # set delay time
-delay_time = int(input("How many seconds between updates? "))
+while True:
+    try:
+        delay_time = int(input("How many seconds between updates? "))
+        break
+    except ValueError:
+        print("Please enter a valid integer.")
 
 #get real-time data
 while True:
