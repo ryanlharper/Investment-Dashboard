@@ -49,7 +49,7 @@ while True:
                     continue
                 else:
                     break
-            while True:
+            while True:   # add error handling for non-numeric input
                 cost = float(input('Enter cost per share: '))# Cannot be NULL
                 if cost == "" or cost < 0:
                     print("Cost per share must be a positive number.")
@@ -95,7 +95,7 @@ while True:
                 else:
                     print("Symbol does not exist in positions table.")
                     continue
-            while True:
+            while True:   # add error handling for non-numeric input
                 price = float(input("Enter the sell price: ")) # Cannot be NULL
                 if price == "" or price < 0:
                     print("Price must be a positive number.")
