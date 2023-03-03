@@ -42,8 +42,20 @@ while True:
         type = input("Enter transaction type (buy, sell or q to quit): ").lower()
         if type == "buy" or type == "b":
             action = "in"
-            symbol = input('Enter symbol: ').upper() #Cannot be NULL
-            cost = float(input('Enter cost per share: '))# Cannot be NULL
+            while True:
+                symbol = input('Enter symbol: ').upper() #Cannot be NULL
+                if symbol == "":
+                    print("Symbol must be entered.")
+                    continue
+                else:
+                    break
+            while True:
+                cost = float(input('Enter cost per share: '))# Cannot be NULL
+                if cost == "" or cost < 0:
+                    print("Cost per share must be a positive number.")
+                    continue
+                else:
+                    break
             while True:
                 buy_date = input('Enter purchase date (YYYY-MM-DD): ') # Can be NULL
                 try:
@@ -57,7 +69,7 @@ while True:
                     print("Invalid format. Please enter in YYYY-MM-DD format.")
                     continue
             while True:
-                number_shares_str = input('Enter number of shares: ') # Can be NULL
+                number_shares_str = input('Enter number of shares: ') # Can be NULL but invalid transaction with code here
                 try:
                     number_shares = float(number_shares_str)
                     int_shares = math.floor(number_shares) 
@@ -73,6 +85,9 @@ while True:
             action = "out"
             while True:
                 symbol = input("Enter symbol: ").upper() # Cannot be NULL
+                if symbol =="":
+                    print("Symbol must be entered.")
+                    continue
                 cur.execute("SELECT symbol FROM positions")
                 result_set = cur.fetchall()
                 if symbol in [row[0] for row in result_set]:
@@ -80,7 +95,13 @@ while True:
                 else:
                     print("Symbol does not exist in positions table.")
                     continue
-            price = float(input("Enter the sell price: ")) # Cannot be NULL
+            while True:
+                price = float(input("Enter the sell price: ")) # Cannot be NULL
+                if price == "" or price < 0:
+                    print("Price must be a positive number.")
+                    continue
+                else:
+                    break
             while True:
                 sell_date = input('Enter sell date (YYYY-MM-DD): ') # Can be NULL
                 try:
@@ -97,14 +118,14 @@ while True:
             cur.execute("SELECT number_shares FROM positions WHERE symbol = ?", (symbol,))
             current_shares = cur.fetchone()[0]
             while True:
-                number_shares_str = input('Enter number of shares: ') # Can be NULL
+                number_shares_str = input('Enter number of shares: ') # Can be NULL but stopping invalid transaction with code here
                 try:
                     number_shares = float(number_shares_str)
                     int_shares = math.floor(number_shares) 
                     if number_shares >= 0 and number_shares <= current_shares:
                         break
                     elif number_shares < 0:
-                        print("Please enter a number greater than or equal to zero.")
+                        print("Please enter a number greater than zero.")
                     else:
                         print("You cannot sell more shares than you currently own.")
                 except ValueError: 
@@ -117,8 +138,6 @@ while True:
             print("\nOnly buys and sell transactions are permitted. ")
             print("Please enter buy or sell, or press q to quit.")
             continue
-
-
 
     # adjust the position in the database 
     if action == "in":
