@@ -4,9 +4,9 @@ import login, update_values, datetime
 def progress_print():
     # print progress function
     print(f"Deadline: {deadline}")
-    print(f"Begining value: ${begin_value}")
-    print(f"Goal value: ${goal_value}")
-    print(f"Current value: ${current_value}")
+    print(f"Begining value: ${begin_value:,.2f}")
+    print(f"Goal value: ${goal_value:,.2f}")
+    print(f"Current value: ${current_value:,.2f}")
     print(f"Progress: {progress_percent:.2f}%")
     if years_to_goal < 1:
         print(f"Days to goal: {days_to_goal}")
@@ -30,8 +30,15 @@ for row in rows:
     numeral += 1
     print(str(numeral)+".", row[0])
 
-#user select goal
-goal_choice_index = int(input("Select a goal: ")) -1
+#user select goal and handle errors
+while True:
+    try:
+        goal_choice_index = int(input("Select a goal: ")) - 1
+        if goal_choice_index < 0 or goal_choice_index >= len(rows):
+            raise ValueError
+        break
+    except ValueError:
+        print("Please enter a valid goal number.")
 
 # get goal data for selected goal
 selected_goal = rows[goal_choice_index]
@@ -60,16 +67,21 @@ required_return = ((float(goal_value) - float(current_value)) / float(current_va
 # check progress
 if goal_type == "amount":
     if current_value >= goal_value:
-        print("\nYou met your goal. The portfolio is now valued at $", str(current_value)+"!")
+        formatted_current_value = "${:,.2f}".format(current_value)
+        print(f"\nYou met your goal. The portfolio is now valued at {formatted_current_value}!")
     else:
-        print("\nYou are $"+ str(goal_value - current_value), "away from the goal.")
+        difference = goal_value - current_value
+        formatted_difference = "${:,.2f}".format(difference)
+        print(f"\nYou are {formatted_difference} away from the goal.")
         print("Check out the details: \n")
         progress_print()
 if goal_type == "percent":
     if annualized_return >= goal_percent:
         print("\nYou are on track with your goal with an annualzied return of", str(annualized_return)+"%!")
     else: 
-        print("\n You are"+ str(goal_percent - annualized_return)+"%","below your target return.")
+        p_difference = goal_percent - annualized_return
+        formatted_p_difference = "{:.2%}".format(p_difference)
+        print(f"\n You are {formatted_p_difference} below your target return.")
         print("Check out the details: \n")
         progress_print()
 
