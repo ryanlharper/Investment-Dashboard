@@ -8,12 +8,55 @@ def scramble(password: str):
 conn = config.connection
 cur = conn.cursor()
 
-# User data
+# registration input data
 first_name = input('Enter your first name: ') #Can be NULL
 last_name = input('Enter your last name: ') # Can be NULL
-username = input('Enter your username: ') # Cannot be NULL
-email = input('Enter your email: ') # Cannot be NULL
-password = input('Enter your password: ') # Cannot be NULL
+
+# enter and check username 
+while True:
+    username = input('Enter your username or enter q to quit: ') # Cannot be NULL
+    if username == "q":
+        exit()
+    elif len(username) <=6:
+        print("username must be greater than six characters.")
+        continue
+    elif len(username) > 6:
+        cur.execute("SELECT username FROM users")
+        users_list = cur.fetchall()
+        if username in [row[0] for row in users_list]:
+            print("username", username, "already registered.")
+            continue
+    else:
+        break
+# enter and check email
+while True:
+    email = input('Enter your email or enter q to quit: ') # Cannot be NULL
+    if email == "q":
+        exit()    
+    elif email == "":
+        print("An email address must be entered to register.")
+        continue
+    elif email != "":
+        cur.execute("SELECT email FROM users")
+        email_list = cur.fetchall()
+        if email in [row[0] for row in email_list]:
+            print("Email adress", email, "is already registered.")
+            continue
+    elif "@" not in email:
+        print("Please enter a valid email address.") 
+        continue
+    else:
+        break
+# enter and check password
+while True:
+    password = input('Enter your password or enter q to quit: ') # Cannot be NULL
+    if password == "q":
+        exit()
+    elif password <=7:
+        print("Password must be eight characters or greater.")
+        continue
+    else:
+        break
 
 # Hash and salt the password
 hashed_password, salt = scramble(password)
