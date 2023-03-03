@@ -1,5 +1,7 @@
-import config, time
+import config, time, login
 import yfinance as yf
+
+user_id = login.login()
 
 # get positions from table
 conn = config.connection
@@ -7,8 +9,10 @@ cur = conn.cursor()
 cur.execute("""
     SELECT p.symbol, p.number_shares, p.cost, p.price, p.return, p.dollar_return, p.market_value
     FROM positions p
+    WHERE user_id = %s
     ORDER BY p.symbol
-""")
+""", (user_id,))
+
 rows = cur.fetchall()
 
 while True:
