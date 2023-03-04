@@ -183,7 +183,7 @@ while True:
             conn.commit()
 
             # insert transaction data into transactions table
-            cur.execute("INSERT INTO transactions (type, symbol, sell_price, amount, date, user_id, number_shares, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s, 10 ,33)", ("sell security", symbol, price, sell_amount, sell_date_str, user_id, number_shares, 10, 33))
+            cur.execute("INSERT INTO transactions (type, symbol, sell_price, amount, date, user_id, number_shares, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s, 10 ,33)", ("sell security", symbol, price, sell_amount, sell_date_str, user_id, number_shares, 7, 25))
             conn.commit()
 
         else:
@@ -192,7 +192,7 @@ while True:
             conn.commit()
 
             # insert transaction data into transactions table
-            cur.execute("INSERT INTO transactions (type, symbol, sell_price, amount, date, user_id, number_shares, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", ("sell security", symbol, price, sell_amount, sell_date_str, user_id, number_shares, 10, 33))
+            cur.execute("INSERT INTO transactions (type, symbol, sell_price, amount, date, user_id, number_shares, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", ("sell security", symbol, price, sell_amount, sell_date_str, user_id, number_shares, 7, 25))
             conn.commit()
 
     elif action == "budget":
