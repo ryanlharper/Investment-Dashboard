@@ -28,7 +28,7 @@ new_symbols = []
 while True:
     symbol = input("Enter a symbol (or '*' to finish): ")
     if symbol == '*':
-        exit()
+        break
     elif symbol in existing_user_symbols_ids:
         print(f"{symbol} is already in your watchlist. Please enter a new symbol.")
     elif symbol in existing_watchlist_symbols:
