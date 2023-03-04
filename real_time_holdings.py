@@ -7,7 +7,7 @@ user_id = login.login()
 conn = config.connection
 cur = conn.cursor()
 cur.execute("""
-    SELECT p.symbol, p.number_shares, p.cost, p.price, p.return, p.dollar_return, p.market_value
+    SELECT p.symbol, p.number_shares, p.cost, p.price, p.return_, p.dollar_return, p.market_value
     FROM positions p
     WHERE user_id = %s
     ORDER BY p.symbol
@@ -39,7 +39,7 @@ while True:
             # update the data in the table
             cur.execute("""
                 UPDATE positions
-                SET price = %s, return = %s, dollar_return = %s, market_value = %s
+                SET price = %s, return_ = %s, dollar_return = %s, market_value = %s
                 WHERE symbol = %s
             """, (latest_price, r, dollar_return, market_value, symbol))
             conn.commit()
