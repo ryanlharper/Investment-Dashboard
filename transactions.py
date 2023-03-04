@@ -105,7 +105,10 @@ while True:
                 action = "budget"
                 cur.execute("SELECT MAX(id) FROM transactions")
                 max_transaction_id = cur.fetchone()[0]
-                new_transaction_id = max_transaction_id + 1 
+                if max_transaction_id is None:
+                    new_transaction_id = 1
+                else:
+                    new_transaction_id = max_transaction_id + 1
                 while True:
                     try:
                         budget_amount = round(float(input("Enter transaction amount: ")), 2)
@@ -160,10 +163,10 @@ while True:
                 chosen_subcategory = all_subcategories[subcategory_id]
                 subcategory_id = chosen_subcategory[0]
         elif type == "q":
-            exit()
+            break
         else:
             print("\nOnly buy, sell, income and expense transactions are permitted. ")
-            print("Please enter buy or sell, or press q to quit.")
+            print("Please enter buy, sell, income, expense or press q to quit.")
             continue
 
     # adjust the position in the database 
@@ -198,11 +201,11 @@ while True:
     elif action == "budget":
         if category_id == 7:
             # insert income transaction data into transactions table
-            cur.execute("INSERT INTO transactions (id, type, amount, date, user_id, description, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", (new_transaction_id, "income", budget_amount, trans_date_str, user_id, description, category_id, subcategory_id))
+            cur.execute("INSERT INTO transactions (id, type, amount, date, user_id, description, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (new_transaction_id, "income", budget_amount, trans_date_str, user_id, description, category_id, subcategory_id))
             conn.commit()
         else: 
             # insert income transaction data into transactions table
-            cur.execute("INSERT INTO transactions (id, type, amount, date, user_id, description, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", (new_transaction_id, "expense", budget_amount, trans_date_str, user_id, description, category_id, subcategory_id))
+            cur.execute("INSERT INTO transactions (id, type, amount, date, user_id, description, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (new_transaction_id, "expense", budget_amount, trans_date_str, user_id, description, category_id, subcategory_id))
             conn.commit() 
     else:
         print("There was an error processing the transaction. Please try again.")
