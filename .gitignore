@@ -1,4 +1,16 @@
 config.py
 config.cpython-39.pyc
 __pycache__/
+/flask/investment_dashboard/__pycache__/
+/flask/investment_dashboard/migrations/
+/flask/investment_dashboard/src/__pycache__/
+/flask/investment_dashboard/src/__init__.py
+/flask/investment_dashboard/src/api/__pycache__/
+/venv/
+/flask/src/api/__pycache__/
+/flask/investment_dashboard/src/api/__init__.py
+/alembic
+/data
+/flask/instance/
+/flask/investment_dashboard/instance/
 
