@@ -178,7 +178,7 @@ class StandardDeviation(db.Model):
 class WatchlistSymbols(db.Model):
     __tablename__ = 'watchlist_symbols'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    symbol = db.Column(db.String(128))  
+    symbol = db.Column(db.String(128) uniqueness=True)  
     etf = db.Column(db.String(4))
 
 class UsersWatchlist(db.Model):
@@ -189,7 +189,7 @@ class UsersWatchlist(db.Model):
 class Watchlist(db.Model):
     __tablename__ = 'watchlist'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    symbol = db.Column(db.String(128)) 
+    symbol = db.Column(db.String(128) uniqueness=True) 
     price = db.Column(db.Numeric(precision=10, scale=2))
     change_pct = db.Column(db.Numeric(precision=10, scale=2))
 
