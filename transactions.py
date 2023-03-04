@@ -8,7 +8,7 @@ cur = conn.cursor()
 while True:
     # user input transaction data
     while True:
-        type = input("Enter transaction type (buy, sell or q to quit): ").lower()
+        type = input("Enter transaction type (buy, sell, income, expense or q to quit): ").lower()
         if type == "buy" or type == "b":
             action = "in"
             while True:
@@ -101,10 +101,68 @@ while True:
                     print("Invalid input. Please enter a valid number.")
                     continue
             break
+        elif type == "income" or type == "expense":
+                action = "budget"
+                cur.execute("SELECT MAX(id) FROM transactions")
+                max_transaction_id = cur.fetchone()[0]
+                new_transaction_id = max_transaction_id + 1 
+                while True:
+                    try:
+                        budget_amount = round(float(input("Enter transaction amount: ")), 2)
+                        break
+                    except ValueError:
+                        print("Invalid input. Please enter a valid number.")
+                while True:
+                    trans_date = input('Enter transaction date (YYYY-MM-DD): ') 
+                    try:
+                        # Parse the input string into a datetime object
+                        date_obj = datetime.datetime.strptime(trans_date, "%Y-%m-%d")
+                        # Format the datetime object as a string in the proper SQL DATE format
+                        trans_date_str = date_obj.strftime("%Y-%m-%d")
+                        break
+                    except ValueError:
+                        # Handle the case where the user entered an invalid date string
+                        print("Invalid format. Please enter in YYYY-MM-DD format.")
+                        continue
+                description = input("Enter transaction description: ")
+                cur.execute("SELECT c.id, c.name FROM categories c")
+                all_categories = cur.fetchall()
+                numeral = 0
+                for category in all_categories:
+                    numeral += 1
+                    print(f"{numeral}. {category[1]}")
+                while True:
+                    try:
+                        category_id = int(input("Please choose a category: ")) - 1
+                        if 0 <= category_id < len(all_categories):
+                            break
+                        else:
+                            print("Invalid category ID. Please try again.")
+                    except ValueError:
+                        print("Invalid input. Please enter a number.")
+                chosen_category = all_categories[category_id]
+                category_id = chosen_category[0]
+                cur.execute("SELECT sc.id, sc.name FROM subcategories sc")
+                all_subcategories = cur.fetchall()
+                numeral = 0
+                for subcategory in all_subcategories:
+                    numeral += 1
+                    print(f"{numeral}. {subcategory[1]}")
+                while True:
+                    try:
+                        subcategory_id = int(input("Please choose a subcategory: ")) - 1
+                        if 0 <= subcategory_id < len(all_subcategories):
+                            break
+                        else:
+                            print("Invalid subcategory ID. Please try again.")
+                    except ValueError:
+                        print("Invalid input. Please enter a number.")
+                chosen_subcategory = all_subcategories[subcategory_id]
+                subcategory_id = chosen_subcategory[0]
         elif type == "q":
             exit()
         else:
-            print("\nOnly buys and sell transactions are permitted. ")
+            print("\nOnly buy, sell, income and expense transactions are permitted. ")
             print("Please enter buy or sell, or press q to quit.")
             continue
 
@@ -115,7 +173,7 @@ while True:
         conn.commit()
 
         # insert transaction data into transactions table
-        cur.execute("INSERT INTO transactions (type, symbol, buy_price, amount, date, user_id, number_shares) VALUES (%s, %s, %s, %s, %s, %s, %s)", ("buy", symbol, cost, buy_amount, buy_date_str, user_id, number_shares))
+        cur.execute("INSERT INTO transactions (type, symbol, buy_price, amount, date, user_id, number_shares, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", ("buy security", symbol, cost, buy_amount, buy_date_str, user_id, number_shares, 10, 31))
         conn.commit()
 
     elif action == "out":
@@ -125,7 +183,7 @@ while True:
             conn.commit()
 
             # insert transaction data into transactions table
-            cur.execute("INSERT INTO transactions (type, symbol, sell_price, amount, date, user_id, number_shares) VALUES (%s, %s, %s, %s, %s, %s, %s)", ("sell", symbol, price, sell_amount, sell_date_str, user_id, number_shares))
+            cur.execute("INSERT INTO transactions (type, symbol, sell_price, amount, date, user_id, number_shares, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s, 10 ,33)", ("sell security", symbol, price, sell_amount, sell_date_str, user_id, number_shares, 10, 33))
             conn.commit()
 
         else:
@@ -134,9 +192,18 @@ while True:
             conn.commit()
 
             # insert transaction data into transactions table
-            cur.execute("INSERT INTO transactions (type, symbol, sell_price, amount, date, user_id, number_shares) VALUES (%s, %s, %s, %s, %s, %s, %s)", ("sell", symbol, price, sell_amount, sell_date_str, user_id, number_shares))
+            cur.execute("INSERT INTO transactions (type, symbol, sell_price, amount, date, user_id, number_shares, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", ("sell security", symbol, price, sell_amount, sell_date_str, user_id, number_shares, 10, 33))
             conn.commit()
 
+    elif action == "budget":
+        if category_id == 7:
+            # insert income transaction data into transactions table
+            cur.execute("INSERT INTO transactions (id, type, amount, date, user_id, description, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", (new_transaction_id, "income", budget_amount, trans_date_str, user_id, description, category_id, subcategory_id))
+            conn.commit()
+        else: 
+            # insert income transaction data into transactions table
+            cur.execute("INSERT INTO transactions (id, type, amount, date, user_id, description, category_id, subcategory_id) VALUES (%s, %s, %s, %s, %s, %s, %s)", (new_transaction_id, "expense", budget_amount, trans_date_str, user_id, description, category_id, subcategory_id))
+            conn.commit() 
     else:
         print("There was an error processing the transaction. Please try again.")
         exit()
