@@ -2,7 +2,7 @@ import config
 import win32com.client as win32
 
 # Set email parameters
-recipient = "ryan@vcm.us.com"
+recipient = ""
 subject = "Daily Performance"
 message = ""
 
