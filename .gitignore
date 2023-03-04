@@ -13,4 +13,5 @@ __pycache__/
 /data
 /flask/instance/
 /flask/investment_dashboard/instance/
+/flask/investment_dashboard/public
 
