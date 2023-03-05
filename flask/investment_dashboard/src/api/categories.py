@@ -1,3 +1,5 @@
+#NEEDS to be updated since migration/integration
+
 from flask import Blueprint, jsonify, abort, request
 from ..models import Category, db
 
