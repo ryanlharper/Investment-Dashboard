@@ -145,16 +145,14 @@ while True:
                         print("Invalid input. Please enter a number.")
                 chosen_category = all_categories[category_id]
                 category_id = chosen_category[0]
-                cur.execute("SELECT sc.id, sc.name FROM subcategories sc")
+                cur.execute("SELECT sc.id, sc.name FROM subcategories sc WHERE sc.category_id = %s", (category_id,))
                 all_subcategories = cur.fetchall()
-                numeral = 0
                 for subcategory in all_subcategories:
-                    numeral += 1
-                    print(f"{numeral}. {subcategory[1]}")
+                    print(f"{subcategory[0]}. {subcategory[1]}")
                 while True:
                     try:
-                        subcategory_id = int(input("Please choose a subcategory: ")) - 1
-                        if 0 <= subcategory_id < len(all_subcategories):
+                        subcategory_id = int(input("Please choose a subcategory: "))
+                        if subcategory_id not in all_subcategories:
                             break
                         else:
                             print("Invalid subcategory ID. Please try again.")
