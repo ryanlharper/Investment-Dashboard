@@ -16,7 +16,7 @@ def progress_print():
     print(f"Required return to meet goal: {required_return:.2%}")
 
 # login & update portfolio values
-user_id = login.login()
+user_id, username = login.login()
 update_values.new_values()
 
 # connect to db, query and return
@@ -24,6 +24,10 @@ conn = config.connection
 cur = conn.cursor()
 cur.execute("SELECT goal, id, deadline, begin_value, goal_value, current_value, type, goal_percent FROM goals WHERE user_id = %s", (user_id,))
 rows = cur.fetchall()
+
+if rows == []:
+    print(f"There are no goals for for username {username}.")
+    exit()
 print("Goals:")
 numeral = 0
 for row in rows:
