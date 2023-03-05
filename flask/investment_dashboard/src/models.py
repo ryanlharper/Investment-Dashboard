@@ -166,6 +166,7 @@ class Position(db.Model):
     dollar_return = db.Column(db.Numeric(precision=12, scale=2))
     market_value = db.Column(db.Numeric(precision=12, scale=2))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    account = db.Column(db.String(128))
 
 class StandardDeviation(db.Model):
     __tablename__ = 'standard_deviation'

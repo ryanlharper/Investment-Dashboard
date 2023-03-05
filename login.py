@@ -34,7 +34,7 @@ def login():
                 # set user_id equal to the id of the user with the matching username and password
                 cur.execute("SELECT id FROM users WHERE username = %s", (username,))
                 user_id = cur.fetchone()[0]
-                return user_id, username
+                return user_id
             else:
                 print("Username and password do not match.")
                 continue
