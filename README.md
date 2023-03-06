@@ -1,13 +1,11 @@
 # Investment Dashboard
 Investment Dashboard is a Python-based investment dashboard program that is built with Python, Flask, SQL, and PostgreSQL. Transactions can be entered either as they occur or periodically. The program provides features like creating watchlists, querying yfinance and FRED, and getting headlines for companies on their watchlist. Additionally, the dashboard enables users to set and track investment goals of holdings and see real-time data. Security is a top priority, and the program is designed to keep user data safe and confidential. Overall, Investment Dashboard will be an ideal tool for anyone looking to see data on their investment and economic data in one place.
-
 ## Features and Functionality
 - Create watchlists of stocks to track
 - Query yfinance and FRED for financial data
 - Get news headlines for watched stocks
 - Set and track multiple goals for positions
 - Real-time data of portfolio(s) holdings
-
 ## Technologies Used
 ### Backend
 - Flask
@@ -18,20 +16,13 @@ Investment Dashboard is a Python-based investment dashboard program that is buil
 - None (coming in future versions)
 ### Database
 - SQL and PostgreSQL
-### API Testing
-- Flask
-- Insomnia
 ### Other Tools
 - JSON
 - VS Code
 - Git
-
 ### Contribution Guidelines: 
 Thank you for your interest in contributing to Investment Dashboard! As this is a personal project for a programming class, contributions are not being accepted but feedback and input on features and functions are helpful. 
-
 ### Future Development
-##### Branding
-- Find a name that better describes the app's overall features
 ##### Security
 - Create limitations to user privileges for security and data reliability   
 - Implement put and patch methods for categories and subcategories with approprite limitations for admin and users
