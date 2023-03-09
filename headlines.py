@@ -2,20 +2,19 @@ import config, login
 import requests, time
 from datetime import datetime, timedelta
 
-user_id = login.login()
+"""user_id = login.login()"""
 
 # Connect to database and query symbols
 conn = config.connection
 cur = conn.cursor()
 cur.execute("""
-    SELECT ws.symbol
+    SELECT DISTINCT ws.symbol
     FROM watchlist_symbols ws
     JOIN users_watchlist uw ON
     uw.watchlist_symbols_id = ws.id
     WHERE ws.etf = 'No' 
-    AND uw.user_id = %s
     ORDER BY ws.symbol
-""", (user_id,))
+""")
 symbols = [r[0] for r in cur.fetchall()]
 
 # Query Alpha Vantage for headlines

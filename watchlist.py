@@ -2,19 +2,19 @@ import yfinance as yf
 import config, login
 import time
 
-user_id = login.login()
+#user_id = login.login()
 
 # connect to db and query user symbols
 conn = config.connection
 cur = conn.cursor()
 cur.execute("""
-    SELECT ws.symbol
+    SELECT DISTINCT ws.symbol
     FROM watchlist_symbols ws
     JOIN users_watchlist uw ON 
     uw.watchlist_symbols_id = ws.id
-    WHERE etf = 'No' AND uw.user_id = %s 
+    WHERE etf = 'No' 
     ORDER BY ws.symbol
-""", (user_id,))
+""")
 symbols = [r[0] for r in cur.fetchall()]
 
 # query yfinance and stream real-time rrices

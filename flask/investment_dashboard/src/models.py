@@ -31,12 +31,9 @@ class Transaction(db.Model):
     symbol = db.Column(db.String(128))
     buy_price = db.Column(db.Numeric(precision=10, scale=2))
     sell_price = db.Column(db.Numeric(precision=10, scale=2))
-    amount = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
     date = db.Column(db.Date, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    number_shares = db.Column(db.Numeric)
-    description = db.Column(db.String(128), nullable=True)
-    
+    number_shares = db.Column(db.Numeric)    
 
     def __init__(self, amount: float, date: date, category_id: int, subcategory_id: int, user_id: int, description: str):
         self.amount = amount
@@ -134,4 +131,3 @@ class Goals(db.Model):
     date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
    
-

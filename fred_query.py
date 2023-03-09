@@ -17,7 +17,11 @@ indicators = cur.fetchall()
 
 # Get the data for all indicators in the list
 data = {}
+# WORKING - adding user input to limit query to relavant indicators
+numeral = 0
 for indicator in indicators:
+    numeral += 1 
+    print(f"{numeral}. {indicator[1]}")
     data[indicator[0]] = web.DataReader(indicator[0], 'fred', start_date, end_date, api_key='<your_API_key>')
 
 # Print the last value for each indicator

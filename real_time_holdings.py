@@ -25,7 +25,7 @@ while True:
             symbol, number_shares, cost, _, _, _, _ = row
             
             # get the real-time price
-            data = yf.Ticker(symbol).history(period='2d')
+            data = yf.Ticker(symbol).history(period='4d')
             latest_price = data['Close'][-1]
             previous_close = data['Close'][-2]
             

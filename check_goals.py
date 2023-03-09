@@ -19,12 +19,13 @@ def progress_print():
 user_id = login.login()
 update_values.new_values()
 
-# connect to db, query and return
+# connect to db, query and return   
 conn = config.connection 
 cur = conn.cursor()
 cur.execute("SELECT goal, id, deadline, begin_value, goal_value, current_value, type, goal_percent FROM goals WHERE user_id = %s", (user_id,))
 rows = cur.fetchall()
 
+# NEED to consider multiple accounts
 if rows == []:
     print(f"There are no goals for for this username.")
     exit()
@@ -44,13 +45,17 @@ while True:
     except ValueError:
         print("Please enter a valid goal number.")
 
+
+# get current value from positons table
+cur.execute("SELECT SUM(market_value) FROM positions WHERE user_id = %s", (user_id,))
+new_value = cur.fetchone()
 # get goal data for selected goal
 selected_goal = rows[goal_choice_index]
 goal_id = selected_goal[1]
 deadline = selected_goal[2]
 begin_value = selected_goal[3]
 goal_value = selected_goal[4]
-current_value = selected_goal[5]
+current_value = new_value[0]
 goal_type = selected_goal[6]
 goal_percent = selected_goal[7]
 
@@ -62,7 +67,7 @@ years_to_goal = seconds_to_goal / (365.2425 * 24 * 60 * 60)
 days_to_goal = time_diff.days
 
 # calculate progress
-progress_percent = (current_value - begin_value) / (goal_value - begin_value) * 100
+progress_percent = (current_value - begin_value) / (goal_value - begin_value) 
 years_since_start = (today - deadline).days / 365.2425
 annualized_return = (float(current_value) / float(begin_value)) ** (1 / years_since_start) - 1
 required_return = ((float(goal_value) - float(current_value)) / float(current_value))
