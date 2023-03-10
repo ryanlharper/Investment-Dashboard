@@ -7,3 +7,4 @@ SQLAlchemy==1.4.17
 yfinance
 pandas_datareader
 matplotlib
+pywin32
